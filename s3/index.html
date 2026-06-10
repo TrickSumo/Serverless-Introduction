@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resume</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #e8e6e1;
+      font-family: system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem 3rem;
+      gap: 1.25rem;
+    }
+
+    .chips {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.35rem 0.9rem;
+      border-radius: 99px;
+      border: 1px solid #d4d0cb;
+      background: #fff;
+      color: #333;
+      text-decoration: none;
+      transition: box-shadow 0.15s;
+    }
+    .chip:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+    .chip-views { color: #2c5f8a; background: #e8f0f7; border-color: #b8d0e8; }
+
+    .pdf-page {
+      background: #fff;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08);
+      border-radius: 2px;
+      display: block;
+    }
+
+    #loading {
+      color: #888;
+      font-size: 0.85rem;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="chips">
+    <a class="chip" href="resume.pdf" download>↓ Download</a>
+    <span class="chip chip-views" id="views">👁 ···</span>
+  </div>
+
+  <div id="loading">Loading…</div>
+  <div id="pdf-container"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs" type="module"></script>
+  <script type="module">
+    import * as pdfjsLib from 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs';
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs';
+
+    const container = document.getElementById('pdf-container');
+    const loading = document.getElementById('loading');
+    const scale = Math.min(window.devicePixelRatio * 1.2, 2.4);
+
+    const pdf = await pdfjsLib.getDocument('resume.pdf').promise;
+    loading.remove();
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const viewport = page.getViewport({ scale });
+
+      const canvas = document.createElement('canvas');
+      canvas.className = 'pdf-page';
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      canvas.style.width = Math.min(viewport.width / window.devicePixelRatio, 860) + 'px';
+      canvas.style.height = 'auto';
+
+      await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+      container.appendChild(canvas);
+    }
+
+    // views counter
+    fetch('/api/views')
+      .then(r => r.json())
+      .then(d => document.getElementById('views').textContent = '👁 ' + (d.views ?? d.count))
+      .catch(() => document.getElementById('views').textContent = '👁 —');
+  </script>
+
+</body>
+</html>
