@@ -1,6 +1,8 @@
-# Genreate Key-pair for Cloudfront Distribution
+# Task1 Hint
 
-## Windows
+## 1. Generate RSA key-pair for Cloudfront Distribution. Then restrict access to S3 bucket and API using signed cookies.
+
+### Windows
 
 *Generate private key*
 openssl genrsa -out private_key.pem 2048
@@ -18,7 +20,15 @@ with open('private_key.pem', 'r') as file:
 ```
 
 
-## Linux/Mac
+### Linux/Mac
 ```
 openssl genrsa -out private_key.pem 2048; openssl rsa -pubout -in private_key.pem -out public_key.pem;
 ```
+
+## 2. Take file from s3 folder and putt in s3 bucket in auth folder
+
+## 3. Create signedCookieCreator lambda function and add code to generate signed cookie for cloudfront distribution (lambda folder)
+
+## 4. Add API Route to API Gateway and integrate with lambda function
+
+## 5. IMPORTANT: Make sure Cloudfront behaviuor for api route allow query strings. Set Origin request policy to AllViewerExceptHostHeader.
