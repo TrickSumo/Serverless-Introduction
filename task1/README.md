@@ -6,6 +6,9 @@ CloudFront returns 403.
 
 ## Architecture
 
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/3a71c897-f951-4cd0-b133-68fe538a16f5" />
+
+
 ```
 Browser  ──▶  /auth/index.html?pass=<token>      (S3 origin, public)
                  │ fetch /api/signedCookies?pass=<token>  (credentials: include)
