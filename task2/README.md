@@ -1,4 +1,4 @@
-# Task2 Hint — Live View Count over WebSocket
+# Task2 Hint - Live View Count over WebSocket
 
 Show a resume's view count and update it **live** in every open tab whenever
 the count changes.
@@ -60,9 +60,9 @@ Triggered by the `resume` stream; pushes the new `views` to all connections.
 - Env:
   - `TABLE_NAME=task2` (the table it scans for connections)
   - `WEBSOCKET_ENDPOINT=https://{apiId}.execute-api.{region}.amazonaws.com/{stage}`
-    (the `@connections` base **without** the `/@connections` suffix — the SDK adds it)
+    (the `@connections` base **without** the `/@connections` suffix - the SDK adds it)
 - IAM:
-  - `AWSLambdaDynamoDBExecutionRole` (logs + stream read) — or scope the stream
+  - `AWSLambdaDynamoDBExecutionRole` (logs + stream read) - or scope the stream
     actions to `arn:.../table/resume/stream/*`
   - `dynamodb:Scan`, `dynamodb:DeleteItem` on `task2`
   - `execute-api:ManageConnections` on `arn:aws:execute-api:{region}:{acct}:{apiId}/{stage}/POST/@connections/*`
