@@ -27,11 +27,13 @@ CloudFront validates cookies against the trusted key group ──▶ serves S3 c
 
 ### Windows
 *Generate private key*
+```
 openssl genrsa -out private_key.pem 2048
-
+```
 *Extract public key*
+```
 openssl rsa -in private_key.pem -pubout -out public_key.pem
-
+```
 *To Store Key As Secret (Use output of python script below to store as secret in AWS Secret Manager or lambda environment variable)*
 
 ```
