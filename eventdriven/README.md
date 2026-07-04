@@ -1,5 +1,5 @@
 # Event-Driven Online Store (AWS CDK)
-```
+```mermaid
 flowchart TD
     Client([Client]) -->|POST /orders| CreateOrder[createOrder]
     CreateOrder --> DDB[(Orders Table)]
@@ -25,6 +25,9 @@ flowchart TD
     Client -.->|GET /orders/id poll| DDB
 
 ```
+
+<img width="1692" height="929" alt="image" src="https://github.com/user-attachments/assets/3cbbcae4-51e3-47b6-ae1d-9b5fa2e0726a" />
+
 
 ## Architecture
 
