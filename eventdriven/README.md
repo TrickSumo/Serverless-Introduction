@@ -77,7 +77,7 @@ Client ──▶ API Gateway ──▶ createOrder ──▶ DynamoDB + publish 
 ### 1. Set Stripe credentials (read from your shell at deploy time)
 
 ```bash
-export STRIPE_SECRET_KEY=sk_test_...
+export STRIPE_SECRET_KEY=sk_test_...   (DO NOT use Publishable key. Make sure to copy Secret key)
 # STRIPE_WEBHOOK_SECRET is set in step 3, after the webhook exists
 ```
 
