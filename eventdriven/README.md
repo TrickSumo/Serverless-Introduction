@@ -79,6 +79,8 @@ Client ──▶ API Gateway ──▶ createOrder ──▶ DynamoDB + publish 
 ```bash
 export STRIPE_SECRET_KEY=sk_test_...   (DO NOT use Publishable key. Make sure to copy Secret key)
 # STRIPE_WEBHOOK_SECRET is set in step 3, after the webhook exists
+# Optional: create an SNS email subscription during deployment
+export NOTIFICATION_EMAIL=you@example.com
 ```
 
 > `FRONTEND_URL` is **not** set by hand — the payment Lambda derives its Stripe
@@ -113,6 +115,12 @@ npx cdk deploy
 ```
 
 ### 4. (Optional) Subscribe to notifications
+
+If `NOTIFICATION_EMAIL` was set before deploying, AWS sends a subscription confirmation email
+to that address. Click **Confirm subscription** to receive notifications. Email subscriptions
+cannot receive messages until confirmed.
+
+Alternatively, subscribe after deployment using the topic ARN:
 
 ```bash
 aws sns subscribe --topic-arn <NotificationTopicArn> --protocol email --notification-endpoint you@example.com

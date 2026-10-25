@@ -61,6 +61,14 @@ export class EventDrivenStack extends cdk.Stack {
     const notificationTopic = new sns.Topic(this, 'NotificationTopic', {
       displayName: 'Order notifications',
     });
+    const notificationEmail = process.env.NOTIFICATION_EMAIL;
+    if (notificationEmail) {
+      new sns.CfnSubscription(this, 'NotificationEmailSubscription', {
+        protocol: 'email',
+        endpoint: notificationEmail,
+        topicArn: notificationTopic.topicArn,
+      });
+    }
 
     // ---------------------------------------------------------------------
     // 4. Queue-based load leveling in front of Inventory (+ DLQ for retries)
